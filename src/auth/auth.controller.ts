@@ -1,11 +1,12 @@
-// src/auth/auth.controller.ts
+// auth.controller.ts
+
 import { Controller, Request, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   @UseGuards(AuthGuard('local'))
   @Post('login')

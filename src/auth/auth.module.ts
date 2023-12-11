@@ -1,23 +1,22 @@
-// src/auth/auth.module.ts
+// auth.module.ts
+
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { UserModule } from '../user/user.module';
-import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './local.strategy';
+import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './jwt.strategy';
-
+import { UrlShortenerModule } from '../url-shortener/url-shortener.module';
+import { AuthController } from './auth.controller';
 @Module({
   imports: [
-    UserModule,
-    PassportModule,
+    UsersModule,
     JwtModule.register({
-      secret: 'your-secret-key',
-      signOptions: { expiresIn: '1h' }, // adjust expiration as needed
+      secret: process.env.JWT_SECRET || 'default-secret',
+      signOptions: { expiresIn: '1h' },
     }),
+    UrlShortenerModule, // Include the UrlShortenerModule
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, LocalStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}
