@@ -10,16 +10,26 @@ export class UrlShortenerService {
 
   async generateShortUrl(originalUrl: string, userId?: number): Promise<string> {
     const shortId = shortid.generate();
-    const shortUrl = `https://teja/${shortId}`;
-
+    const shortUrl = `https://localhost:3000/${shortId}`;
+  
     // Save the short URL with user information in the in-memory storage
     this.shortUrls.set(shortUrl, { originalUrl, userId });
-
+  
     return shortUrl;
   }
-
+  
   async resolveShortUrl(shortUrl: string): Promise<{ originalUrl: string, userId?: number } | null> {
-    // Retrieve the original URL and user information (if available) based on the short URL from the in-memory storage
-    return this.shortUrls.get(shortUrl) || null;
-  }
-}
+    try {
+      const resolvedUrl = this.shortUrls.get(shortUrl);
+      if (!resolvedUrl) {
+        console.log(`Short URL not found: ${shortUrl}`);
+        return null;
+      }
+  
+      return resolvedUrl;
+    } catch (error) {
+      console.error(`Error resolving short URL: ${shortUrl}`, error);
+      return null;
+    }
+  }}
+  

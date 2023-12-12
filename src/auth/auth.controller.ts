@@ -1,6 +1,6 @@
 // auth.controller.ts
 
-import { Controller, Request, Post, UseGuards } from '@nestjs/common';
+import { Controller, Request, Post, UseGuards,Get } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 
@@ -12,5 +12,12 @@ export class AuthController {
   @Post('login')
   async login(@Request() req) {
     return this.authService.login(req.user);
+  }
+ // @UseGuards(AuthGuard('jwt')) // Assuming you have a JWT strategy
+  @Get('logout')
+  async logout(@Request() req) {
+    await this.authService.logout(req.user);
+
+    return { message: 'Logout successful' };
   }
 }

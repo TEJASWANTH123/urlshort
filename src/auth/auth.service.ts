@@ -31,4 +31,7 @@ export class AuthService {
       user,
     };
   }
+  async logout(user: any): Promise<void> {
+       console.log(`User logged out: ${user}`);
+  }
 }
