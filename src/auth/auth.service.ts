@@ -28,10 +28,10 @@ export class AuthService {
     const accessToken = this.jwtService.sign(payload);
     return {
       access_token: accessToken,
-      user,
+    //  user,
     };
   }
-  async logout(user: any): Promise<void> {
-       console.log(`User logged out: ${user}`);
+  async logout(user: any) {
+       console.log(user?.username);
   }
 }

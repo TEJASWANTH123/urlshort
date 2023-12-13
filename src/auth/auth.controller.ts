@@ -14,10 +14,11 @@ export class AuthController {
     return this.authService.login(req.user);
   }
  // @UseGuards(AuthGuard('jwt')) // Assuming you have a JWT strategy
-  @Get('logout')
+ @UseGuards(AuthGuard('local'))
+  @Post('logout')
   async logout(@Request() req) {
-    await this.authService.logout(req.user);
+    return this.authService.logout(req.user);
 
-    return { message: 'Logout successful' };
+  //  return { message: 'Logout successful' };
   }
 }
